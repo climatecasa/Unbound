@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unbound by Himanshi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #fcfcfc;
+            --text-main: #333333;
+            --text-secondary: #757575;
+            --plane-color: #d1b8b6; 
+            --white: #ffffff;
+            --accent: #d1b8a5;
+        }
+
+        body, html {
+            margin: 0; padding: 0;
+            overflow-x: hidden;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            scroll-behavior: smooth;
+        }
+
+        /* --- Intro Animation --- */
+        #intro-overlay {
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100vh;
+            background: #ffffff;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            z-index: 1000;
+            transition: transform 1.2s cubic-bezier(0.8, 0, 0.2, 1);
+        }
+
+        .plane-container {
+            width: 50px; height: 50px;
+            position: absolute;
+            animation: takeOff 4s forwards ease-in-out;
+        }
+        .plane-container svg { fill: var(--plane-color); }
+
+        @keyframes takeOff {
+            0% { transform: translate(-120%, 80%) rotate(-5deg); opacity: 0; }
+            20% { opacity: 1; }
+            100% { transform: translate(150%, -150vh) rotate(-25deg); opacity: 0; }
+        }
+
+        .intro-text {
+            text-align: center; opacity: 0;
+            animation: fadeIn 1.5s 1.2s forwards;
+            padding: 0 30px;
+        }
+
+        .intro-text h1 { 
+            font-family: 'Playfair Display', serif; 
+            font-size: 1.4rem; 
+            font-weight: 400; 
+            letter-spacing: 0.5px;
+            margin: 0;
+            display: inline-block;
+        }
+
+        .intro-text p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+            margin-top: 8px;
+        }
+
+        .cute-heart {
+            display: inline-block;
+            width: 10px; height: 10px;
+            fill: var(--accent);
+            margin-left: 4px;
+            vertical-align: middle;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Main Content --- */
+        main {
+            opacity: 0;
+            transition: opacity 1s ease;
+            max-width: 700px;
+            margin: 0 auto; 
+            padding: 60px 25px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+            justify-content: center;
+        }
+
+        .manifesto-section { margin-bottom: 40px; line-height: 1.8; width: 100%; }
+        
+        .manifesto-img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 40px;
+            border-radius: 2px;
+        }
+
+        .highlight-text { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 40px; display: block; }
+        .description-para { font-size: 1.05rem; margin-bottom: 25px; font-weight: 300; }
+        .separator { margin: 40px auto; width: 30px; height: 1px; background: #ddd; }
+
+        /* --- Explore Card --- */
+        .card-container {
+            position: relative;
+            width: 100%;
+            min-height: 400px;
+            margin: 50px 0;
+            cursor: pointer;
+        }
+
+        .card-inner {
+            width: 100%; height: 100%;
+            position: relative;
+            background: #fff;
+            border-radius: 4px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+
+        .side {
+            width: 100%; height: 100%;
+            box-sizing: border-box;
+            transition: opacity 0.6s ease;
+        }
+
+        #front-content { 
+            opacity: 1; 
+            position: relative; 
+            z-index: 5; 
+            display: flex; 
+            flex-direction: column;
+            justify-content: center;
+            padding: 40px;
+        }
+        
+        .def-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; margin: 0; text-align: left;}
+        .def-type { font-style: italic; color: var(--text-secondary); margin-bottom: 10px; font-size: 0.9rem; text-align: left;}
+        .def-body { font-size: 1rem; line-height: 1.5; font-weight: 300; max-width: 90%; text-align: left;}
+
+        #back-content {
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
+            opacity: 0; z-index: 1;
+            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('img2.jpeg');
+            background-size: cover; background-position: center;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            width: 100%; height: 100%;
+        }
+
+        .grid-block {
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            text-align: center; color: var(--white);
+            font-size: 0.85rem; letter-spacing: 1px;
+            text-decoration: none;
+            transition: background 0.3s ease;
+            padding: 10px;
+            text-transform: uppercase;
+        }
+
+        .border-right { border-right: 0.5px solid rgba(255, 255, 255, 0.4); }
+        .border-bottom { border-bottom: 0.5px solid rgba(255, 255, 255, 0.4); }
+
+        .icon-small { width: 20px; height: 20px; fill: var(--white); margin-bottom: 8px; }
+
+        /* --- Full Screen Overlays --- */
+        .full-page-overlay {
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100vh;
+            background: #fff;
+            z-index: 3000;
+            transform: translateY(100%);
+            transition: transform 0.8s cubic-bezier(0.8, 0, 0.2, 1);
+            overflow-y: auto;
+            padding: 80px 25px;
+            box-sizing: border-box;
+        }
+
+        .full-page-overlay.open { transform: translateY(0); }
+
+        .close-btn {
+            position: fixed; top: 25px; right: 25px;
+            font-size: 0.7rem; letter-spacing: 2px;
+            text-transform: uppercase; cursor: pointer; color: #999;
+            z-index: 3100;
+        }
+
+        .overlay-content { max-width: 700px; margin: 0 auto; }
+        .overlay-content h2 { font-family: 'Playfair Display', serif; font-weight: 400; font-size: 2rem; margin-bottom: 30px; text-align: center; }
+
+        /* --- Inspired Page --- */
+        .pinterest-board { column-count: 2; column-gap: 15px; width: 100%; }
+        .quote-card {
+            break-inside: avoid; margin-bottom: 15px; padding: 25px; border-radius: 8px;
+            font-family: 'Playfair Display', serif; font-size: 1rem; line-height: 1.6;
+            color: #333; display: flex; align-items: center; justify-content: center;
+            text-align: center; min-height: 140px; border: 1px solid rgba(0,0,0,0.05);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+        }
+
+        /* --- Start Here Page --- */
+        .q-section { margin-bottom: 45px; text-align: center; }
+        .q-title { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--accent); margin-bottom: 10px; display: block; }
+        .q-ans { font-size: 1.05rem; line-height: 1.6; font-weight: 300; color: #444; }
+        
+        /* --- About Section Specific --- */
+        .about-text { font-size: 1rem; line-height: 1.8; font-weight: 300; color: #444; margin-bottom: 40px; text-align: justify; }
+        .box-msg { border: 0.5px solid #e0e0e0; padding: 35px; border-radius: 2px; background: rgba(255,255,255,0.7); text-align: center; }
+        
+        .founder-img {
+            width: 100%; max-width: 400px; height: auto;
+            margin-bottom: 30px; border-radius: 4px;
+        }
+
+        /* --- Typewriter --- */
+        #you-matter {
+            position: fixed; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem; color: #333; z-index: 2000;
+            white-space: nowrap; overflow: hidden; width: 0; 
+            pointer-events: none;
+        }
+
+        .type-blink {
+            animation: typing 1.2s steps(10, end) forwards, blink-out 0.8s 1.2s forwards;
+        }
+
+        @keyframes typing { from { width: 0; } to { width: 190px; } }
+        @keyframes blink-out { from { opacity: 1; } to { opacity: 0; } }
+
+        .hint-text { align-self: center; margin-top: 30px; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; color: #bbb; }
+    </style>
+</head>
+<body>
+
+    <div id="intro-overlay">
+        <div class="plane-container">
+            <svg viewBox="0 0 24 24"><path d="M2 13.5L9 16.5L11 22L13.5 16.5L20 19L22 4L2 13.5Z" /></svg>
+        </div>
+        <div class="intro-text">
+            <h1>Unbound by Himanshi</h1>
+            <p>— For every life that seeks to be its own 
+                <svg class="cute-heart" viewBox="0 0 32 32">
+                    <path d="M16 28.5L13.8 26.4C6.1 19.4 1 14.8 1 9.2 1 4.6 4.6 1 9.2 1c2.6 0 5.1 1.2 6.8 3.1 1.7-1.9 4.2-3.1 6.8-3.1 4.6 0 8.2 3.6 8.2 8.2 0 5.6-5.1 10.2-12.8 17.2L16 28.5z"/>
+                </svg>
+            </p>
+        </div>
+    </div>
+
+    <div id="you-matter">You Matter</div>
+
+    <main id="main-content">
+        <section class="manifesto-section">
+            <img src="img4.jpeg" alt="Manifesto Image" class="manifesto-img">
+            <span class="highlight-text">Your time on this earth is not meant to be a performance for others. <br><br><strong>It is yours.</strong></span>
+            <p class="description-para">Unbound is a social project dedicated to awakening the potential we hold beyond the weight of expectations. It begins the moment you learn to choose yourself and what you love. It begins when you stop shrinking to fit spaces that feel uncomfortable. It is a movement toward conscious freedom ~ a reminder that your life, choices, and joy are yours to define.</p>
+            <div class="separator"></div>
+            <p class="description-para">You don't have to be a certain type or way to look or feel good.</p>
+            <p class="description-para">You Are Enough. You are Rare.</p>
+        </section>
+
+        <div class="card-container" onclick="exploreMore()">
+            <div class="card-inner">
+                <div class="side" id="front-content">
+                    <p class="def-title">unbound</p>
+                    <p class="def-type">adjective</p>
+                    <p class="def-body">used to describe a positive feeling that is very great and seems to have no limits</p>
+                    <span class="hint-text">Explore More</span>
+                </div>
+                <div class="side" id="back-content">
+                    <div class="grid-container">
+                        <div class="grid-block border-right border-bottom" onclick="toggleOverlay('about-page', true)"><span>About 🤍</span></div>
+                        <a href="https://youtube.com/@unboundbyhimanshi?si=BGa6Jhe4Qfewfh93" target="_blank" class="grid-block border-bottom">
+                             <svg class="icon-small" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.242-11.625-.242-15.23 0-3.897.266-4.385 2.303-4.385 8.816 0 6.513.488 8.55 4.385 8.816 3.604.242 11.625.242 15.23 0 3.897-.266 4.385-2.303 4.385-8.816 0-6.513-.488-8.55-4.385-8.816zm-10.615 12.816v-8l8 4-8 4z"/></svg>
+                             <span>Subscribe</span>
+                        </a>
+                        <div class="grid-block border-right" onclick="toggleOverlay('inspired-page', true)">
+                            <svg class="icon-small" viewBox="0 0 24 24"><path d="M12,22C12,22 13,18 13.5,15.5C14,13 16,13 16,13C16,13 20,13 22,12C22,12 18,11 15.5,10.5C13,10 13,8 13,8C13,8 13,4 12,2C12,2 11,6 10.5,8.5C10,11 8,11 8,11C8,11 4,11 2,12C2,12 6,13 8.5,13.5C11,14 11,16 11,16C11,16 11,20 12,22Z"/></svg>
+                            <span>Get Inspired</span>
+                        </div>
+                        <div class="grid-block" onclick="toggleOverlay('start-page', true)">
+                             <svg class="icon-small" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                             <span>Start Here</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="about-page" class="full-page-overlay">
+        <div class="close-btn" onclick="toggleOverlay('about-page', false)">Close</div>
+        <div class="overlay-content">
+            <h2>About Unbound</h2>
+            <div class="about-text">
+                Unbound by Himanshi is a soulful social initiative born from a quiet yet powerful realization ~ that in an age of growing awareness, education, and evolution, we are no longer meant to remain tethered to outdated patterns of living. It is a gentle invitation to release what no longer serves you ~ the unhealthy habits, the silent expectations, and the unseen pressures that ask you to fit into a life already defined.
+                <br><br>
+                At its heart, Unbound is a return to self. To be unbound is to set yourself free from limiting patterns and inherited conditioning, and to step into a life shaped by your own conscious choices. It is about living fully in the present, embracing your inner voice, and honoring the truth that we are independent, aware beings meant to experience life in our own unique way.
+                <br><br>
+                Unbound believes that true freedom is not loud or forceful, but deeply personal ~ it begins the moment you choose yourself.
+            </div>
+            
+            <div class="box-msg">
+                <img src="img6.jpeg" alt="Founder" class="founder-img">
+                <span style="font-family: 'Playfair Display', serif; display: block; margin-bottom: 20px; font-size: 1.2rem;">A Message from the Founder</span>
+                <div class="about-text" style="font-style: italic; text-align: center; margin-bottom: 20px;">
+                    “Unbound was created from a deep need to bring light back into the way we live ~ a life where we are courageous enough to choose what we truly love, rather than quietly following definitions set by others.
+                    <br><br>
+                    It is about returning to what feels real ~ living with love, with values that genuinely resonate, with kindness, and with a sense of joy that is not conditioned by approval.
+                    <br><br>
+                    Unbound brings attention to the personal and professional spaces that often limit us ~ the patterns that cage us mentally and emotionally ~ and opens up a path toward living with greater awareness, choice, and truth.”
+                </div>
+                <span style="display: block; text-align: right; color: #888;">~ Himanshi Shrimali</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="inspired-page" class="full-page-overlay">
+        <div class="close-btn" onclick="toggleOverlay('inspired-page', false)">Close</div>
+        <div class="overlay-content" style="max-width: 900px;">
+            <h2>Get Inspired</h2>
+            <div class="pinterest-board" id="pinterest-board"></div>
+        </div>
+    </div>
+
+    <div id="start-page" class="full-page-overlay">
+        <div class="close-btn" onclick="toggleOverlay('start-page', false)">Close</div>
+        <div class="overlay-content">
+            <h2>Ask Yourself</h2>
+            <div class="q-section"><span class="q-title">Who are you?</span><p class="q-ans">A conscious being with free will.</p></div>
+            <div class="q-section"><span class="q-title">Why are you here?</span><p class="q-ans">To experience life.</p></div>
+            <div class="q-section"><span class="q-title">What are you here to experience?</span><p class="q-ans">Love, joy, peace, and so much more. You choose your experiences, you create them, and you have the right to change them if they don’t align with your purpose of living.</p></div>
+            <div class="q-section"><span class="q-title">How can you live a life unbounded?</span><p class="q-ans">Know this: no one, literally no one, has the power to control your life. You are an independent, conscious being, practicing your free will unapologetically by choosing love and peace.</p></div>
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="https://youtube.com/@unboundbyhimanshi?si=BGa6Jhe4Qfewfh93" target="_blank" style="text-decoration: none; color: var(--accent); border-bottom: 1px solid #ccc; font-size: 0.9rem;">Subscribe Here</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('load', () => {
+            const overlay = document.getElementById('intro-overlay');
+            const main = document.getElementById('main-content');
+            generateQuotes();
+            setTimeout(() => {
+                overlay.style.transform = 'translateY(-100%)';
+                document.body.style.overflow = 'auto'; 
+                setTimeout(() => { main.style.opacity = '1'; }, 400);
+            }, 5500); 
+        });
+
+        function exploreMore() {
+            const matterText = document.getElementById('you-matter');
+            matterText.classList.add('type-blink');
+            document.getElementById('front-content').style.opacity = '0';
+            setTimeout(() => {
+                const back = document.getElementById('back-content');
+                back.style.opacity = '1'; back.style.zIndex = '10';
+            }, 1600); 
+        }
+
+        function toggleOverlay(id, show) {
+            const page = document.getElementById(id);
+            page.classList.toggle('open', show);
+            document.body.style.overflow = show ? 'hidden' : 'auto';
+        }
+
+        function generateQuotes() {
+            const board = document.getElementById('pinterest-board');
+            // Added #ffffff for clear white cards
+            const colors = ['#fdf2f2', '#ffffff', '#f0f4ff', '#ffffff', '#f0fff4', '#fffcf0', '#ffffff', '#f9f0ff', '#f0f9ff'];
+            const quotes = [
+                "Freedom is the realization that you no longer need permission to be happy.",
+                "To love without limits is to realize that your heart is an infinite ocean.",
+                "Kindness is the language the deaf can hear and the blind can see.",
+                "You were never meant to fit into definitions others created.",
+                "Step into the life shaped by your own conscious choices.",
+                "Peace begins when you decide your inner world is worth protecting.",
+                "Living fully in the present is the greatest act of courage.",
+                "Your value is determined by the love you choose to embody.",
+                "The unhealthy habits we carry are often just shields we forgot to put down.",
+                "Choose yourself out of a responsibility to the soul you were given.",
+                "True freedom is the quiet confidence of knowing who you are.",
+                "Release the unseen pressures that ask you to shrink."
+            ];
+
+            for(let i=0; i<36; i++) {
+                const card = document.createElement('div');
+                card.className = 'quote-card';
+                card.innerText = quotes[i % quotes.length];
+                card.style.height = (150 + Math.random() * 80) + "px";
+                card.style.backgroundColor = colors[i % colors.length];
+                board.appendChild(card);
+            }
+        }
+    </script>
+</body>
+</html>
