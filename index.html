@@ -10,9 +10,9 @@
             --bg-color: #fcfcfc;
             --text-main: #333333;
             --text-secondary: #757575;
-            --plane-color: #d1b8b6; 
+            --plane-color: #b35a4a; /* Light Rust Red */
             --white: #ffffff;
-            --accent: #d1b8a5;
+            --accent: #b35a4a; /* Light Rust Red */
         }
 
         body, html {
@@ -32,25 +32,27 @@
             display: flex; flex-direction: column;
             justify-content: center; align-items: center;
             z-index: 1000;
-            transition: transform 1.2s cubic-bezier(0.8, 0, 0.2, 1);
+            transition: transform 1s cubic-bezier(0.8, 0, 0.2, 1);
         }
 
         .plane-container {
             width: 50px; height: 50px;
-            position: center;
-            animation: takeOff 4s forwards ease-in-out;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: takeOff 3s forwards ease-in-out;
         }
         .plane-container svg { fill: var(--plane-color); }
 
         @keyframes takeOff {
-            0% { transform: translate(-120%, 80%) rotate(-5deg); opacity: 0; }
+            0% { transform: translate(0, 50px) rotate(-5deg); opacity: 0; }
             20% { opacity: 1; }
             100% { transform: translate(150%, -150vh) rotate(-25deg); opacity: 0; }
         }
 
         .intro-text {
             text-align: center; opacity: 0;
-            animation: fadeIn 1.5s 1.2s forwards;
+            animation: fadeIn 1s 0.8s forwards;
             padding: 0 30px;
         }
 
@@ -86,7 +88,7 @@
         /* --- Main Content --- */
         main {
             opacity: 0;
-            transition: opacity 1s ease;
+            transition: opacity 0.8s ease;
             max-width: 700px;
             margin: 0 auto; 
             padding: 60px 25px;
@@ -362,8 +364,8 @@
             setTimeout(() => {
                 overlay.style.transform = 'translateY(-100%)';
                 document.body.style.overflow = 'auto'; 
-                setTimeout(() => { main.style.opacity = '1'; }, 400);
-            }, 5500); 
+                setTimeout(() => { main.style.opacity = '1'; }, 300);
+            }, 3000); // Faster intro duration
         });
 
         function exploreMore() {
@@ -384,8 +386,7 @@
 
         function generateQuotes() {
             const board = document.getElementById('pinterest-board');
-            // Added #ffffff for clear white cards
-            const colors = ['#fdf2f2', '#ffffff', '#f0f4ff', '#ffffff', '#f0fff4', '#fffcf0', '#ffffff', '#f9f0ff', '#f0f9ff'];
+            const colors = ['#fdf2f2', '#b35a4a', '#f0f4ff', '#ffffff', '#f0fff4', '#fffcf0', '#b35a4a', '#fcfcfc', '#f0f9ff'];
             const quotes = [
                 "Freedom is the realization that you no longer need permission to be happy.",
                 "To love without limits is to realize that your heart is an infinite ocean.",
