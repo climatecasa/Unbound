@@ -33,6 +33,7 @@
             justify-content: center; align-items: center;
             z-index: 1000;
             transition: transform 1s cubic-bezier(0.8, 0, 0.2, 1);
+            pointer-events: all;
         }
 
         .plane-container {
@@ -288,16 +289,16 @@
                 </div>
                 <div class="side" id="back-content">
                     <div class="grid-container">
-                        <div class="grid-block border-right border-bottom" onclick="toggleOverlay('about-page', true)"><span>About 🤍</span></div>
+                        <div class="grid-block border-right border-bottom" onclick="event.stopPropagation(); toggleOverlay('about-page', true)"><span>About 🤍</span></div>
                         <a href="https://youtube.com/@unboundbyhimanshi?si=BGa6Jhe4Qfewfh93" target="_blank" class="grid-block border-bottom">
                              <svg class="icon-small" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.242-11.625-.242-15.23 0-3.897.266-4.385 2.303-4.385 8.816 0 6.513.488 8.55 4.385 8.816 3.604.242 11.625.242 15.23 0 3.897-.266 4.385-2.303 4.385-8.816 0-6.513-.488-8.55-4.385-8.816zm-10.615 12.816v-8l8 4-8 4z"/></svg>
                              <span>Subscribe</span>
                         </a>
-                        <div class="grid-block border-right" onclick="toggleOverlay('inspired-page', true)">
+                        <div class="grid-block border-right" onclick="event.stopPropagation(); toggleOverlay('inspired-page', true)">
                             <svg class="icon-small" viewBox="0 0 24 24"><path d="M12,22C12,22 13,18 13.5,15.5C14,13 16,13 16,13C16,13 20,13 22,12C22,12 18,11 15.5,10.5C13,10 13,8 13,8C13,8 13,4 12,2C12,2 11,6 10.5,8.5C10,11 8,11 8,11C8,11 4,11 2,12C2,12 6,13 8.5,13.5C11,14 11,16 11,16C11,16 11,20 12,22Z"/></svg>
                             <span>Get Inspired</span>
                         </div>
-                        <div class="grid-block" onclick="toggleOverlay('start-page', true)">
+                        <div class="grid-block" onclick="event.stopPropagation(); toggleOverlay('start-page', true)">
                              <svg class="icon-small" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
                              <span>Start Here</span>
                         </div>
@@ -312,7 +313,7 @@
         <div class="overlay-content">
             <h2>About Unbound</h2>
             <div class="about-text">
-                Unbound by Himanshi is a soulful social initiative born from a quiet yet powerful realization ~ that in an age of growing awareness, education, and evolution, we are no longer meant to remain tethered to outdated patterns of living. It is a gentle invitation to release what no longer serves you ~ the unhealthy habits, the silent expectations, and the unseen pressures that ask you to fit into a life already defined.
+                In an age of growing awareness, education, and evolution, we are no longer meant to remain tethered to outdated patterns of living. It is a gentle invitation to release what no longer serves you ~ the unhealthy habits, the silent expectations, and the unseen pressures that ask you to fit into a life already defined.
                 <br><br>
                 At its heart, Unbound is a return to self. To be unbound is to set yourself free from limiting patterns and inherited conditioning, and to step into a life shaped by your own conscious choices. It is about living fully in the present, embracing your inner voice, and honoring the truth that we are independent, aware beings meant to experience life in our own unique way.
                 <br><br>
@@ -323,9 +324,9 @@
                 <img src="img6.jpeg" alt="Founder" class="founder-img">
                 <span style="font-family: 'Playfair Display', serif; display: block; margin-bottom: 20px; font-size: 1.2rem;">A Message from the Founder</span>
                 <div class="about-text" style="font-style: italic; text-align: center; margin-bottom: 20px;">
-                    “Unbound was created from a deep need to bring light back into the way we live ~ a life where we are courageous enough to choose what we truly love, rather than quietly following definitions set by others.
+                    “Unbound was created to bring light back into the lives of people ~ in a way that feels honest and real, in a way that feels liberating and not bounding.
                     <br><br>
-                    It is about returning to what feels real ~ living with love, with values that genuinely resonate, with kindness, and with a sense of joy that is not conditioned by approval.
+                    It is about returning to what feels authentic ~ living with love, with values that genuinely resonate, with kindness, and with a sense of joy that is not conditioned by approval.
                     <br><br>
                     Unbound brings attention to the personal and professional spaces that often limit us ~ the patterns that cage us mentally and emotionally ~ and opens up a path toward living with greater awareness, choice, and truth.”
                 </div>
@@ -346,10 +347,11 @@
         <div class="close-btn" onclick="toggleOverlay('start-page', false)">Close</div>
         <div class="overlay-content">
             <h2>Ask Yourself</h2>
-            <div class="q-section"><span class="q-title">Who are you?</span><p class="q-ans">A conscious being with free will.</p></div>
+            <div class="q-section"><span class="q-title">Who are you?</span><p class="q-ans">You are an independent conscious being with free will.</p></div>
             <div class="q-section"><span class="q-title">Why are you here?</span><p class="q-ans">To experience life ~ deeply, fully & unapologetically.</p></div>
             <div class="q-section"><span class="q-title">What are you here to experience?</span><p class="q-ans">Love, joy, peace, and so much more. You choose your experiences, you create them, and you have the capability to change them if they don’t make you feel happy.</p></div>
-            <div class="q-section"><span class="q-title">How can you live a life unbounded?</span><p class="q-ans">Remember this: no one controls you. No one. You are sovereign, independent, and free to choose love, peace, and the life that lights you up.</p></div>
+            <div class="q-section"><span class="q-title">How can you live a life unbounded?</span><p class="q-ans">Remember this: To live a life unbounded is to choose yourself ~ over pressure, over noise, over expectations. The world has changed for the Good and it must keep changing for the Good. No one holds the right to control your life. Your freedom is your Right and your privilege. 
+            </p></div>
             <div style="text-align: center; margin-top: 40px;">
                 <a href="https://youtube.com/@unboundbyhimanshi?si=BGa6Jhe4Qfewfh93" target="_blank" style="text-decoration: none; color: var(--accent); border-bottom: 1px solid #ccc; font-size: 0.9rem;">Subscribe Here</a>
             </div>
@@ -364,8 +366,11 @@
             setTimeout(() => {
                 overlay.style.transform = 'translateY(-100%)';
                 document.body.style.overflow = 'auto'; 
-                setTimeout(() => { main.style.opacity = '1'; }, 300);
-            }, 3000); // Faster intro duration
+                setTimeout(() => { 
+                    main.style.opacity = '1'; 
+                    overlay.style.display = 'none'; // REMOVES OVERLAY SO YOU CAN CLICK CONTENT
+                }, 1000);
+            }, 4500); // Adjusted to wait for full animation
         });
 
         function exploreMore() {
@@ -388,7 +393,7 @@
             const board = document.getElementById('pinterest-board');
             const colors = ['#fdf2f2', '#b35a4a', '#f0f4ff', '#ffffff', '#f0fff4', '#fffcf0', '#b35a4a', '#fcfcfc', '#f0f9ff'];
             const quotes = [
-                "Freedom is the realization that you no longer need permission to be happy.",
+                "Freedom is the realization that you no longer need permission to be happy.", "You Matter", "You are Beautiful just the way you are.", "Life is too short, to be unhappy", "This is your life, and only yours to define",
                 "To love without limits is to realize that your heart is an infinite ocean.",
                 "Kindness is the language the deaf can hear and the blind can see.",
                 "You were never meant to fit into definitions others created.",
