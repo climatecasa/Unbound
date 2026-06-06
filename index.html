@@ -10,10 +10,17 @@
             --bg-color: #fcfcfc;
             --text-main: #333333;
             --text-secondary: #757575;
-            --plane-color: #b35a4a; /* Light Rust Red */
+            --plane-medium-beige: #cfae93; 
+            --plane-medium-dark-beige: #bd9c81; 
             --white: #ffffff;
             --accent: #b35a4a; /* Light Rust Red */
-            --dark-rust: #8a3a2b; /* Darker Rust Red from image */
+            --dark-rust: #8a3a2b; 
+            --dark-beige-shade: #8c7665; 
+            --box-beige-shade: #dcd1be; /* Elegant beige shade for panels and menus */
+            --box-beige-hover: #cfc2ac; 
+            --button-beige: #d7ccb7; /* Soft beige shade for the button */
+            --star-shine-beige: #ebdcc1; /* Brilliant shine beige for twilight star */
+            --stable-star-beige: #e3d5be; /* Soft tone for the fixed star */
         }
 
         body, html {
@@ -42,13 +49,15 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            animation: takeOff 3s forwards ease-in-out;
+            animation: takeOff 5.5s forwards ease-in-out;
         }
-        .plane-container svg { fill: var(--plane-color); }
+        
+        .plane-container svg .plane-dark { fill: var(--plane-medium-dark-beige); }
+        .plane-container svg .plane-light { fill: var(--plane-medium-beige); }
 
         @keyframes takeOff {
             0% { transform: translate(0, 50px) rotate(-5deg); opacity: 0; }
-            20% { opacity: 1; }
+            15% { opacity: 1; }
             100% { transform: translate(150%, -150vh) rotate(-25deg); opacity: 0; }
         }
 
@@ -65,7 +74,7 @@
             letter-spacing: 0.5px;
             margin: 0;
             display: inline-block;
-            text-shadow: 0 0 10px rgba(179, 90, 74, 0.3), 0 0 20px rgba(179, 90, 74, 0.1);
+            text-shadow: 0 0 10px rgba(168, 143, 125, 0.3), 0 0 20px rgba(168, 143, 125, 0.1);
         }
 
         .intro-text p {
@@ -107,6 +116,85 @@
         .ck-container {
             max-width: 650px;
             text-align: center;
+            position: relative;
+        }
+
+        /* --- Twilight Sky Container with Fixed & Passing Star --- */
+        .twilight-sky-container {
+            position: relative;
+            width: 160px;
+            height: 70px;
+            margin: 0 auto 20px auto;
+            overflow: visible;
+        }
+
+        /* Fixed Stable Small Beige Star */
+        .stable-star {
+            position: absolute;
+            top: 25%;
+            left: 20%;
+            width: 8px;
+            height: 8px;
+            background: var(--stable-star-beige);
+            clip-path: polygon(50% 0%, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0% 50%, 39% 39%);
+            opacity: 0.75;
+            filter: drop-shadow(0 0 3px rgba(227, 213, 190, 0.5));
+            animation: stablePulse 3s ease-in-out infinite alternate;
+        }
+
+        .twilight-star {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 18px;
+            height: 18px;
+            background: var(--star-shine-beige);
+            clip-path: polygon(50% 0%, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0% 50%, 39% 39%);
+            box-shadow: 0 0 25px 8px rgba(235, 220, 193, 0.9);
+            filter: drop-shadow(0 0 6px rgba(235, 220, 193, 0.8));
+            animation: starPassing 4s cubic-bezier(0.4, 0, 0.2, 1) infinite, starGlow 2s ease-in-out infinite alternate;
+        }
+
+        .twilight-streak {
+            position: absolute;
+            top: 50%;
+            left: -10%;
+            width: 120%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(235, 220, 193, 0.4) 50%, transparent);
+            transform: translateY(-50%) rotate(-6deg);
+            opacity: 0.6;
+        }
+
+        .twilight-sky-container::after {
+            content: '✨';
+            position: absolute;
+            font-size: 10px;
+            color: var(--star-shine-beige);
+            animation: trailGlitter 4s linear infinite;
+        }
+
+        @keyframes stablePulse {
+            0% { transform: scale(0.9); opacity: 0.5; }
+            100% { transform: scale(1.1); opacity: 0.9; }
+        }
+
+        @keyframes starPassing {
+            0% { transform: translate(-80px, 15px) rotate(-5deg) scale(0.8); opacity: 0; }
+            30% { opacity: 1; }
+            70% { opacity: 1; }
+            100% { transform: translate(80px, -15px) rotate(15deg) scale(0.9); opacity: 0; }
+        }
+
+        @keyframes starGlow {
+            0% { filter: drop-shadow(0 0 4px rgba(235, 220, 193, 0.6)); }
+            100% { filter: drop-shadow(0 0 14px rgba(235, 220, 193, 1)); }
+        }
+
+        @keyframes trailGlitter {
+            0% { transform: translate(-40px, 20px); opacity: 0; }
+            50% { opacity: 0.8; }
+            100% { transform: translate(50px, -20px); opacity: 0; }
         }
 
         .ck-brand {
@@ -123,8 +211,8 @@
             font-size: 2.6rem;
             font-weight: 400;
             margin: 0 0 10px 0;
-            color: var(--dark-rust);
-            text-shadow: 0 0 1px rgba(138, 58, 43, 0.1);
+            color: var(--dark-beige-shade);
+            text-shadow: 0 0 1px rgba(140, 118, 101, 0.1);
         }
 
         .ck-subtitle {
@@ -155,21 +243,25 @@
         }
 
         .ck-btn {
-            background: transparent;
-            border: 1px solid var(--accent);
-            color: var(--accent);
+            background: var(--button-beige);
+            border: 1px solid #bfb199;
+            color: #544937;
             padding: 14px 40px;
             font-size: 0.75rem;
             text-transform: uppercase;
             letter-spacing: 2px;
             cursor: pointer;
             border-radius: 2px;
+            font-weight: 600;
+            box-shadow: 0 2px 10px rgba(140, 118, 101, 0.1);
             transition: all 0.3s ease;
         }
 
         .ck-btn:hover {
-            background: var(--accent);
-            color: var(--white);
+            background: #cfc2ac;
+            color: #383023;
+            border-color: #a69880;
+            box-shadow: 0 4px 15px rgba(140, 118, 101, 0.2);
         }
 
         /* --- Main Content --- */
@@ -188,7 +280,29 @@
 
         .manifesto-section { margin-bottom: 40px; line-height: 1.8; width: 100%; }
 
-        .highlight-text { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 40px; display: block; }
+        .highlight-text { 
+            font-family: 'Playfair Display', serif; 
+            font-size: 1.5rem; 
+            margin-bottom: 40px; 
+            display: block; 
+            font-weight: 400;
+            letter-spacing: -0.3px;
+            line-height: 1.6;
+        }
+
+        .illuminated-yours {
+            color: var(--dark-beige-shade);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-shadow: 0 0 8px rgba(140, 118, 101, 0.3), 0 0 15px rgba(140, 118, 101, 0.1);
+            animation: darkBeigeGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes darkBeigeGlow {
+            0% { text-shadow: 0 0 6px rgba(140, 118, 101, 0.2); opacity: 0.95; }
+            100% { text-shadow: 0 0 12px rgba(140, 118, 101, 0.5); opacity: 1; }
+        }
+
         .description-para { font-size: 1.05rem; margin-bottom: 25px; font-weight: 300; }
         .separator { margin: 40px auto; width: 30px; height: 1px; background: #ddd; }
 
@@ -234,8 +348,7 @@
             position: absolute; top: 0; left: 0;
             width: 100%; height: 100%;
             opacity: 0; z-index: 1;
-            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5));
-            background-color: #333;
+            background-color: var(--box-beige-shade);
         }
 
         .grid-container {
@@ -248,7 +361,8 @@
         .grid-block {
             display: flex; flex-direction: column;
             align-items: center; justify-content: center;
-            text-align: center; color: var(--white);
+            text-align: center; 
+            color: #4a4235;
             font-size: 0.85rem; letter-spacing: 1px;
             text-decoration: none;
             transition: background 0.3s ease;
@@ -256,10 +370,14 @@
             text-transform: uppercase;
         }
 
-        .border-right { border-right: 0.5px solid rgba(255, 255, 255, 0.4); }
-        .border-bottom { border-bottom: 0.5px solid rgba(255, 255, 255, 0.4); }
+        .grid-block:hover {
+            background-color: var(--box-beige-hover);
+        }
 
-        .icon-small { width: 20px; height: 20px; fill: var(--white); margin-bottom: 8px; }
+        .border-right { border-right: 0.5px solid rgba(94, 83, 67, 0.25); }
+        .border-bottom { border-bottom: 0.5px solid rgba(94, 83, 67, 0.25); }
+
+        .icon-small { width: 20px; height: 20px; fill: #4a4235; margin-bottom: 8px; }
 
         /* --- Full Screen Overlays --- */
         .full-page-overlay {
@@ -291,9 +409,13 @@
         .quote-card {
             break-inside: avoid; margin-bottom: 15px; padding: 25px; border-radius: 8px;
             font-family: 'Playfair Display', serif; font-size: 1rem; line-height: 1.6;
-            color: #333; display: flex; align-items: center; justify-content: center;
-            text-align: center; min-height: 140px; border: 1px solid rgba(0,0,0,0.05);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+            display: flex; align-items: center; justify-content: center;
+            text-align: center; min-height: 140px; border: 1px solid rgba(140, 118, 101, 0.12);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.01);
+            transition: transform 0.3s ease;
+        }
+        .quote-card:hover {
+            transform: translateY(-2px);
         }
 
         /* --- Start Here Page --- */
@@ -329,11 +451,14 @@
 
     <div id="intro-overlay">
         <div class="plane-container">
-            <svg viewBox="0 0 24 24"><path d="M2 13.5L9 16.5L11 22L13.5 16.5L20 19L22 4L2 13.5Z" /></svg>
+            <svg viewBox="0 0 24 24">
+                <path class="plane-light" d="M2 13.5L22 4L11 22L9 16.5L2 13.5Z"/>
+                <path class="plane-dark" d="M9 16.5L11 22L13.5 16.5L22 4L9 16.5Z"/>
+            </svg>
         </div>
         <div class="intro-text">
-            <h1>Unbound by Himanshi</h1>
-            <p>— For every life that seeks to be its own 
+            <h1>CLIMATE CASA PRESENTS</h1>
+            <p>Unbound <br> A Climate Kind Project 
                 <svg class="cute-heart" viewBox="0 0 32 32">
                     <path d="M16 28.5L13.8 26.4C6.1 19.4 1 14.8 1 9.2 1 4.6 4.6 1 9.2 1c2.6 0 5.1 1.2 6.8 3.1 1.7-1.9 4.2-3.1 6.8-3.1 4.6 0 8.2 3.6 8.2 8.2 0 5.6-5.1 10.2-12.8 17.2L16 28.5z"/>
                 </svg>
@@ -344,11 +469,18 @@
     <!-- Climate Kind Narration Screen -->
     <div id="climate-kind-screen">
         <div class="ck-container">
-            <span class="ck-brand">Climate Kind Presents</span>
-            <h2 class="ck-title">Unbound by Himanshi</h2>
-            <span class="ck-subtitle">Founding Project</span>
+            <!-- Twilight Sky Canvas containing Fixed Stable Star and Passing Star -->
+            <div class="twilight-sky-container">
+                <div class="twilight-streak"></div>
+                <div class="stable-star"></div>
+                <div class="twilight-star"></div>
+            </div>
+            
+            <span class="ck-brand">UNBOUND</span>
+            <h2 class="ck-title">A Climate Kind Project</h2>
+            <span class="ck-subtitle"></span>
             <p class="ck-theme">Rising beyond the eyes that define us.</p>
-            <p class="ck-essence">Society often places invisible boundaries around who we should be, how we should behave, and what is considered acceptable. Many of these pressures are illusionary — they exist because they are repeated, not because they are true. Unbound invites people to shift from living according to external judgment to living according to inner truth: how we see ourselves, what our heart says, and what freedom feels like.</p>
+            <p class="ck-essence">Society often places invisible boundaries around who we should be, how we should behave, and what is considered acceptable. Many of these pressures are illusionary, they exist because they are repeated, not because they are true. Unbound invites people to shift from living according to external judgment to living according to inner truth: how we see ourselves, what our heart says, and what freedom feels like.</p>
             <button class="ck-btn" onclick="revealSite()">Learn More</button>
         </div>
     </div>
@@ -357,7 +489,10 @@
 
     <main id="main-content">
         <section class="manifesto-section">
-            <span class="highlight-text">Your time on this earth is not meant to be a performance for others. <br><br><strong>It is yours.</strong></span>
+            <span class="highlight-text">
+                Your time on this earth is not meant to be a performance for others. <br><br>
+                It is <span class="illuminated-yours">YOURS</span>.
+            </span>
             <p class="description-para">Unbound is a social project dedicated to awakening the potential we hold beyond the weight of expectations. It begins the moment you learn to choose yourself and what you love. It begins when you stop shrinking to fit spaces that feel uncomfortable. It is a movement toward conscious freedom ~ a reminder that your life, choices, and joy are yours to define.</p>
             <div class="separator"></div>
             <p class="description-para">You don't have to be a certain type or way to look or feel good.</p>
@@ -454,7 +589,7 @@
                     ckScreen.style.opacity = '1';
                     overlay.style.display = 'none';
                 }, 1000);
-            }, 4500); 
+            }, 6000); 
         });
 
         function revealSite() {
@@ -488,28 +623,65 @@
 
         function generateQuotes() {
             const board = document.getElementById('pinterest-board');
-            const colors = ['#fdf2f2', '#b35a4a', '#f0f4ff', '#ffffff', '#f0fff4', '#fffcf0', '#b35a4a', '#fcfcfc', '#f0f9ff'];
-            const quotes = [
-                "Freedom is the realization that you no longer need permission to be happy.", "You Matter", "You are Beautiful just the way you are.", "Life is too short, to be unhappy", "This is your life, and only yours to define",
-                "To love without limits is to realize that your heart is an infinite ocean.",
-                "Kindness is the language the deaf can hear and the blind can see.",
-                "You were never meant to fit into definitions others created.",
-                "Step into the life shaped by your own conscious choices.",
-                "Peace begins when you decide your inner world is worth protecting.",
-                "Living fully in the present is the greatest act of courage.",
-                "Your value is determined by the love you choose to embody.",
-                "The unhealthy habits we carry are often just shields we forgot to put down.",
-                "Choose yourself out of a responsibility to the soul you were given.",
-                "True freedom is the quiet confidence of knowing who you are.",
-                "Release the unseen pressures that ask you to shrink.", "You have got wings to fly.", "You are an independent conscious being practicing your free will to experience life", "Live your life to the fullest" , "You were born to fly", "Your freedom is your Right", "You Matter", "Your choices makes you different exactly as someone else's choices makes them, there is no right or wrong", "Life is short, so do what makes you happy"
+            
+            // Custom palette array matching your requirement: light beige, dark beige shades, and warm white shades
+            const beigePalette = [
+                { bg: '#fdfbfa', text: '#5c5247' }, // Warm Pearl White
+                { bg: '#f4ede2', text: '#6b5e50' }, // Light Cream Beige
+                { bg: '#ebdcc1', text: '#4d4235' }, // Soft Medium Beige
+                { bg: '#dfcca9', text: '#42372c' }, // Radiant Pale Gold Beige
+                { bg: '#c9b79c', text: '#ffffff' }, // Matte Dark Beige (White text for contrast)
+                { bg: '#bda68a', text: '#ffffff' }, // Deep Ochre Dark Beige (White text)
+                { bg: '#a38c72', text: '#fbf9f6' }, // Premium Dark Shadow Beige
+                { bg: '#ffffff', text: '#6e6152' }  // Stark Crisp White
             ];
 
-            for(let i=0; i<36; i++) {
+            // Rich extended list of Pinterest quotes covering Self-Love, Freedom, Friendship, and Kindness
+            const quotes = [
+                "To love oneself is the beginning of a lifelong romance.",
+                "You inherit the freedom to recreate who you are at any moment.",
+                "In a world where you can be anything, be kind.",
+                "A true friend is someone who dances with you in the sunlight and holds the umbrella in the rain.",
+                "You owe yourself the love you so freely give to other people.",
+                "Freedom is not the absence of boundaries, but the courage to draw your own.",
+                "Be gentle with your soul; it is doing the best it can.",
+                "Kindness is the ultimate currency, and it costs nothing to spend.",
+                "Waters roll, winds howl, but true friendship remains unbothered.",
+                "You are allowed to be both a masterpiece and a work in progress.",
+                "The only real cages are the expectations we refuse to untie.",
+                "Unexpected kindness is the most beautiful, elegant gesture in life.",
+                "Choose friends who value your quiet just as much as your noise.",
+                "To choose your own joy is the ultimate declaration of independence.",
+                "You do not have to conquer the world to be worthy of rest.",
+                "Plant your own garden instead of waiting for someone to bring you flowers.",
+                "Freedom feels like a quiet room inside your mind where no external opinion lives.",
+                "A soft heart is a sign of immense strength, not weakness.",
+                "We grow beautiful by the truth we speak and the grace we offer.",
+                "Surround yourself with people who make you feel like a breath of fresh air.",
+                "Your heart is an infinite ocean; make sure you swim in it too.",
+                "Unbound, unbothered, and entirely your own.",
+                "Kindness reflects back like oil on smooth water.",
+                "Friendship is finding the rare souls who speak the exact same silent language.",
+                "Allow yourself the freedom to change your mind and heal your heart.",
+                "You are rare. Act accordingly.",
+                "No one can make you feel small without your own internal vote.",
+                "Be the reason someone believes in the goodness of people today.",
+                "Conscious freedom begins the second you realize you hold the key.",
+                "Keep close to those who feel like soft sunlight on a crisp morning."
+            ];
+
+            // Generating 36 cards to create a beautiful, dense mosaic grid layout
+            for(let i = 0; i < 36; i++) {
                 const card = document.createElement('div');
                 card.className = 'quote-card';
                 card.innerText = quotes[i % quotes.length];
-                card.style.height = (150 + Math.random() * 80) + "px";
-                card.style.backgroundColor = colors[i % colors.length];
+                card.style.height = (140 + Math.random() * 90) + "px";
+                
+                // Fetch random color schema from the customized beige profile array
+                const schema = beigePalette[Math.floor(Math.random() * beigePalette.length)];
+                card.style.backgroundColor = schema.bg;
+                card.style.color = schema.text;
+                
                 board.appendChild(card);
             }
         }
