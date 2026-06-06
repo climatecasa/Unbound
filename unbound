@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Climate Kind | Unbound by Himanshi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #fcfcfc;
+            --text-main: #333333;
+            --text-secondary: #757575;
+            --plane-medium-beige: #cfae93; 
+            --plane-medium-dark-beige: #bd9c81; 
+            --white: #ffffff;
+            --accent: #b35a4a; /* Light Rust Red */
+            --dark-rust: #8a3a2b; 
+            --dark-beige-shade: #8c7665; 
+            --box-beige-shade: #dcd1be; /* Elegant beige shade for panels and menus */
+            --box-beige-hover: #cfc2ac; 
+            --button-beige: #d7ccb7; /* Soft beige shade for the button */
+            --star-shine-beige: #ebdcc1; /* Brilliant shine beige for twilight star */
+            --stable-star-beige: #e3d5be; /* Soft tone for the fixed star */
+        }
+
+        body, html {
+            margin: 0; padding: 0;
+            overflow-x: hidden;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            scroll-behavior: smooth;
+        }
+
+        /* --- Intro Animation --- */
+        #intro-overlay {
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100vh;
+            background: #ffffff;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            z-index: 1000;
+            transition: transform 1s cubic-bezier(0.8, 0, 0.2, 1);
+            pointer-events: all;
+        }
+
+        .plane-container {
+            width: 50px; height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: takeOff 5.5s forwards ease-in-out;
+        }
+        
+        .plane-container svg .plane-dark { fill: var(--plane-medium-dark-beige); }
+        .plane-container svg .plane-light { fill: var(--plane-medium-beige); }
+
+        @keyframes takeOff {
+            0% { transform: translate(0, 50px) rotate(-5deg); opacity: 0; }
+            15% { opacity: 1; }
+            100% { transform: translate(150%, -150vh) rotate(-25deg); opacity: 0; }
+        }
+
+        .intro-text {
+            text-align: center; opacity: 0;
+            animation: fadeIn 1s 0.7s forwards;
+            padding: 0 30px;
+        }
+
+        .intro-text h1 { 
+            font-family: 'Playfair Display', serif; 
+            font-size: 1.4rem; 
+            font-weight: 400; 
+            letter-spacing: 0.5px;
+            margin: 0;
+            display: inline-block;
+            text-shadow: 0 0 10px rgba(168, 143, 125, 0.3), 0 0 20px rgba(168, 143, 125, 0.1);
+        }
+
+        .intro-text p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+            margin-top: 8px;
+        }
+
+        .cute-heart {
+            display: inline-block;
+            width: 10px; height: 10px;
+            fill: var(--accent);
+            margin-left: 4px;
+            vertical-align: middle;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Climate Kind Screen --- */
+        #climate-kind-screen {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100vh;
+            background-color: var(--bg-color);
+            z-index: 900;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+            padding: 40px 30px;
+            opacity: 0;
+            transition: opacity 0.8s ease, transform 1s cubic-bezier(0.8, 0, 0.2, 1);
+        }
+
+        .ck-container {
+            max-width: 650px;
+            text-align: center;
+            position: relative;
+        }
+
+        /* --- Twilight Sky Container with Fixed & Passing Star --- */
+        .twilight-sky-container {
+            position: relative;
+            width: 160px;
+            height: 70px;
+            margin: 0 auto 20px auto;
+            overflow: visible;
+        }
+
+        /* Fixed Stable Small Beige Star */
+        .stable-star {
+            position: absolute;
+            top: 25%;
+            left: 20%;
+            width: 8px;
+            height: 8px;
+            background: var(--stable-star-beige);
+            clip-path: polygon(50% 0%, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0% 50%, 39% 39%);
+            opacity: 0.75;
+            filter: drop-shadow(0 0 3px rgba(227, 213, 190, 0.5));
+            animation: stablePulse 3s ease-in-out infinite alternate;
+        }
+
+        .twilight-star {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 18px;
+            height: 18px;
+            background: var(--star-shine-beige);
+            clip-path: polygon(50% 0%, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0% 50%, 39% 39%);
+            box-shadow: 0 0 25px 8px rgba(235, 220, 193, 0.9);
+            filter: drop-shadow(0 0 6px rgba(235, 220, 193, 0.8));
+            animation: starPassing 4s cubic-bezier(0.4, 0, 0.2, 1) infinite, starGlow 2s ease-in-out infinite alternate;
+        }
+
+        .twilight-streak {
+            position: absolute;
+            top: 50%;
+            left: -10%;
+            width: 120%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(235, 220, 193, 0.4) 50%, transparent);
+            transform: translateY(-50%) rotate(-6deg);
+            opacity: 0.6;
+        }
+
+        .twilight-sky-container::after {
+            content: '✨';
+            position: absolute;
+            font-size: 10px;
+            color: var(--star-shine-beige);
+            animation: trailGlitter 4s linear infinite;
+        }
+
+        @keyframes stablePulse {
+            0% { transform: scale(0.9); opacity: 0.5; }
+            100% { transform: scale(1.1); opacity: 0.9; }
+        }
+
+        @keyframes starPassing {
+            0% { transform: translate(-80px, 15px) rotate(-5deg) scale(0.8); opacity: 0; }
+            30% { opacity: 1; }
+            70% { opacity: 1; }
+            100% { transform: translate(80px, -15px) rotate(15deg) scale(0.9); opacity: 0; }
+        }
+
+        @keyframes starGlow {
+            0% { filter: drop-shadow(0 0 4px rgba(235, 220, 193, 0.6)); }
+            100% { filter: drop-shadow(0 0 14px rgba(235, 220, 193, 1)); }
+        }
+
+        @keyframes trailGlitter {
+            0% { transform: translate(-40px, 20px); opacity: 0; }
+            50% { opacity: 0.8; }
+            100% { transform: translate(50px, -20px); opacity: 0; }
+        }
+
+        .ck-brand {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: var(--text-secondary);
+            margin-bottom: 25px;
+            display: block;
+        }
+
+        .ck-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.6rem;
+            font-weight: 400;
+            margin: 0 0 10px 0;
+            color: var(--dark-beige-shade);
+            text-shadow: 0 0 1px rgba(140, 118, 101, 0.1);
+        }
+
+        .ck-subtitle {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--text-secondary);
+            margin-bottom: 35px;
+            display: block;
+        }
+
+        .ck-theme {
+            font-style: italic;
+            color: #555;
+            margin-bottom: 35px;
+            font-size: 1.05rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+        }
+
+        .ck-essence {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            font-weight: 600;
+            color: #222;
+            margin-bottom: 45px;
+            text-align: justify;
+        }
+
+        .ck-btn {
+            background: var(--button-beige);
+            border: 1px solid #bfb199;
+            color: #544937;
+            padding: 14px 40px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            border-radius: 2px;
+            font-weight: 600;
+            box-shadow: 0 2px 10px rgba(140, 118, 101, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .ck-btn:hover {
+            background: #cfc2ac;
+            color: #383023;
+            border-color: #a69880;
+            box-shadow: 0 4px 15px rgba(140, 118, 101, 0.2);
+        }
+
+        /* --- Main Content --- */
+        main {
+            opacity: 0;
+            transition: opacity 0.7s ease;
+            max-width: 700px;
+            margin: 0 auto; 
+            padding: 60px 25px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+            justify-content: center;
+        }
+
+        .manifesto-section { margin-bottom: 40px; line-height: 1.8; width: 100%; }
+
+        .highlight-text { 
+            font-family: 'Playfair Display', serif; 
+            font-size: 1.5rem; 
+            margin-bottom: 40px; 
+            display: block; 
+            font-weight: 400;
+            letter-spacing: -0.3px;
+            line-height: 1.6;
+        }
+
+        .illuminated-yours {
+            color: var(--dark-beige-shade);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-shadow: 0 0 8px rgba(140, 118, 101, 0.3), 0 0 15px rgba(140, 118, 101, 0.1);
+            animation: darkBeigeGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes darkBeigeGlow {
+            0% { text-shadow: 0 0 6px rgba(140, 118, 101, 0.2); opacity: 0.95; }
+            100% { text-shadow: 0 0 12px rgba(140, 118, 101, 0.5); opacity: 1; }
+        }
+
+        .description-para { font-size: 1.05rem; margin-bottom: 25px; font-weight: 300; }
+        .separator { margin: 40px auto; width: 30px; height: 1px; background: #ddd; }
+
+        /* --- Explore Card --- */
+        .card-container {
+            position: relative;
+            width: 100%;
+            min-height: 400px;
+            margin: 50px 0;
+            cursor: pointer;
+        }
+
+        .card-inner {
+            width: 100%; height: 100%;
+            position: relative;
+            background: #fff;
+            border-radius: 4px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+
+        .side {
+            width: 100%; height: 100%;
+            box-sizing: border-box;
+            transition: opacity 0.6s ease;
+        }
+
+        #front-content { 
+            opacity: 1; 
+            position: relative; 
+            z-index: 5; 
+            display: flex; 
+            flex-direction: column;
+            justify-content: center;
+            padding: 40px;
+        }
+        
+        .def-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; margin: 0; text-align: left;}
+        .def-type { font-style: italic; color: var(--text-secondary); margin-bottom: 10px; font-size: 0.9rem; text-align: left;}
+        .def-body { font-size: 1rem; line-height: 1.5; font-weight: 300; max-width: 90%; text-align: left;}
+
+        #back-content {
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
+            opacity: 0; z-index: 1;
+            background-color: var(--box-beige-shade);
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            width: 100%; height: 100%;
+        }
+
+        .grid-block {
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            text-align: center; 
+            color: #4a4235;
+            font-size: 0.85rem; letter-spacing: 1px;
+            text-decoration: none;
+            transition: background 0.3s ease;
+            padding: 10px;
+            text-transform: uppercase;
+        }
+
+        .grid-block:hover {
+            background-color: var(--box-beige-hover);
+        }
+
+        .border-right { border-right: 0.5px solid rgba(94, 83, 67, 0.25); }
+        .border-bottom { border-bottom: 0.5px solid rgba(94, 83, 67, 0.25); }
+
+        .icon-small { width: 20px; height: 20px; fill: #4a4235; margin-bottom: 8px; }
+
+        /* --- Full Screen Overlays --- */
+        .full-page-overlay {
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100vh;
+            background: #fff;
+            z-index: 3000;
+            transform: translateY(100%);
+            transition: transform 0.8s cubic-bezier(0.8, 0, 0.2, 1);
+            overflow-y: auto;
+            padding: 80px 25px;
+            box-sizing: border-box;
+        }
+
+        .full-page-overlay.open { transform: translateY(0); }
+
+        .close-btn {
+            position: fixed; top: 25px; right: 25px;
+            font-size: 0.7rem; letter-spacing: 2px;
+            text-transform: uppercase; cursor: pointer; color: #999;
+            z-index: 3100;
+        }
+
+        .overlay-content { max-width: 700px; margin: 0 auto; }
+        .overlay-content h2 { font-family: 'Playfair Display', serif; font-weight: 400; font-size: 2rem; margin-bottom: 30px; text-align: center; }
+
+        /* --- Inspired Page --- */
+        .pinterest-board { column-count: 2; column-gap: 15px; width: 100%; }
+        .quote-card {
+            break-inside: avoid; margin-bottom: 15px; padding: 25px; border-radius: 8px;
+            font-family: 'Playfair Display', serif; font-size: 1rem; line-height: 1.6;
+            display: flex; align-items: center; justify-content: center;
+            text-align: center; min-height: 140px; border: 1px solid rgba(140, 118, 101, 0.12);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.01);
+            transition: transform 0.3s ease;
+        }
+        .quote-card:hover {
+            transform: translateY(-2px);
+        }
+
+        /* --- Start Here Page --- */
+        .q-section { margin-bottom: 45px; text-align: center; }
+        .q-title { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--accent); margin-bottom: 10px; display: block; }
+        .q-ans { font-size: 1.05rem; line-height: 1.6; font-weight: 300; color: #444; }
+        
+        /* --- About Section Specific --- */
+        .about-text { font-size: 1rem; line-height: 1.8; font-weight: 300; color: #444; margin-bottom: 40px; text-align: justify; }
+        .box-msg { border: 0.5px solid #e0e0e0; padding: 35px; border-radius: 2px; background: rgba(255,255,255,0.7); text-align: center; }
+
+        /* --- Typewriter --- */
+        #you-matter {
+            position: fixed; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem; color: #333; z-index: 2000;
+            white-space: nowrap; overflow: hidden; width: 0; 
+            pointer-events: none;
+        }
+
+        .type-blink {
+            animation: typing 1.2s steps(10, end) forwards, blink-out 0.8s 1.2s forwards;
+        }
+
+        @keyframes typing { from { width: 0; } to { width: 190px; } }
+        @keyframes blink-out { from { opacity: 1; } to { opacity: 0; } }
+
+        .hint-text { align-self: center; margin-top: 30px; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; color: #bbb; }
+    </style>
+</head>
+<body>
+
+    <div id="intro-overlay">
+        <div class="plane-container">
+            <svg viewBox="0 0 24 24">
+                <path class="plane-light" d="M2 13.5L22 4L11 22L9 16.5L2 13.5Z"/>
+                <path class="plane-dark" d="M9 16.5L11 22L13.5 16.5L22 4L9 16.5Z"/>
+            </svg>
+        </div>
+        <div class="intro-text">
+            <h1>CLIMATE CASA PRESENTS</h1>
+            <p>Unbound <br> A Climate Kind Project 
+                <svg class="cute-heart" viewBox="0 0 32 32">
+                    <path d="M16 28.5L13.8 26.4C6.1 19.4 1 14.8 1 9.2 1 4.6 4.6 1 9.2 1c2.6 0 5.1 1.2 6.8 3.1 1.7-1.9 4.2-3.1 6.8-3.1 4.6 0 8.2 3.6 8.2 8.2 0 5.6-5.1 10.2-12.8 17.2L16 28.5z"/>
+                </svg>
+            </p>
+        </div>
+    </div>
+
+    <!-- Climate Kind Narration Screen -->
+    <div id="climate-kind-screen">
+        <div class="ck-container">
+            <!-- Twilight Sky Canvas containing Fixed Stable Star and Passing Star -->
+            <div class="twilight-sky-container">
+                <div class="twilight-streak"></div>
+                <div class="stable-star"></div>
+                <div class="twilight-star"></div>
+            </div>
+            
+            <span class="ck-brand">UNBOUND</span>
+            <h2 class="ck-title">A Climate Kind Project</h2>
+            <span class="ck-subtitle"></span>
+            <p class="ck-theme">Rising beyond the eyes that define us.</p>
+            <p class="ck-essence">Society often places invisible boundaries around who we should be, how we should behave, and what is considered acceptable. Many of these pressures are illusionary, they exist because they are repeated, not because they are true. Unbound invites people to shift from living according to external judgment to living according to inner truth: how we see ourselves, what our heart says, and what freedom feels like.</p>
+            <button class="ck-btn" onclick="revealSite()">Learn More</button>
+        </div>
+    </div>
+
+    <div id="you-matter">You Matter</div>
+
+    <main id="main-content">
+        <section class="manifesto-section">
+            <span class="highlight-text">
+                Your time on this earth is not meant to be a performance for others. <br><br>
+                It is <span class="illuminated-yours">YOURS</span>.
+            </span>
+            <p class="description-para">Unbound is a social project dedicated to awakening the potential we hold beyond the weight of expectations. It begins the moment you learn to choose yourself and what you love. It begins when you stop shrinking to fit spaces that feel uncomfortable. It is a movement toward conscious freedom ~ a reminder that your life, choices, and joy are yours to define.</p>
+            <div class="separator"></div>
+            <p class="description-para">You don't have to be a certain type or way to look or feel good.</p>
+            <p class="description-para">You Are Enough. You are Rare.</p>
+        </section>
+
+        <div class="card-container" onclick="exploreMore()">
+            <div class="card-inner">
+                <div class="side" id="front-content">
+                    <p class="def-title">unbound</p>
+                    <p class="def-type">adjective</p>
+                    <p class="def-body">used to describe a positive feeling that is very great and seems to have no limits</p>
+                    <span class="hint-text">Explore More</span>
+                </div>
+                <div class="side" id="back-content">
+                    <div class="grid-container">
+                        <div class="grid-block border-right border-bottom" onclick="event.stopPropagation(); toggleOverlay('about-page', true)"><span>About 🤍</span></div>
+                        <a href="https://youtube.com/@unboundbyhimanshi?si=BGa6Jhe4Qfewfh93" target="_blank" class="grid-block border-bottom">
+                             <svg class="icon-small" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.242-11.625-.242-15.23 0-3.897.266-4.385 2.303-4.385 8.816 0 6.513.488 8.55 4.385 8.816 3.604.242 11.625.242 15.23 0 3.897-.266 4.385-2.303 4.385-8.816 0-6.513-.488-8.55-4.385-8.816zm-10.615 12.816v-8l8 4-8 4z"/></svg>
+                             <span>Subscribe</span>
+                        </a>
+                        <div class="grid-block border-right" onclick="event.stopPropagation(); toggleOverlay('inspired-page', true)">
+                            <svg class="icon-small" viewBox="0 0 24 24"><path d="M12,22C12,22 13,18 13.5,15.5C14,13 16,13 16,13C16,13 20,13 22,12C22,12 18,11 15.5,10.5C13,10 13,8 13,8C13,8 13,4 12,2C12,2 11,6 10.5,8.5C10,11 8,11 8,11C8,11 4,11 2,12C2,12 6,13 8.5,13.5C11,14 11,16 11,16C11,16 11,20 12,22Z"/></svg>
+                            <span>Get Inspired</span>
+                        </div>
+                        <div class="grid-block" onclick="event.stopPropagation(); toggleOverlay('start-page', true)">
+                             <svg class="icon-small" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                             <span>Start Here</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="about-page" class="full-page-overlay">
+        <div class="close-btn" onclick="toggleOverlay('about-page', false)">Close</div>
+        <div class="overlay-content">
+            <h2>About Unbound</h2>
+            <div class="about-text">
+                In an age of growing awareness, education, and evolution, we are no longer meant to remain tethered to outdated patterns of living. It is a gentle invitation to release what no longer serves you ~ the unhealthy habits, the silent expectations, and the unseen pressures that ask you to fit into a life already defined.
+                <br><br>
+                At its heart, Unbound is a return to self. To be unbound is to set yourself free from limiting patterns and inherited conditioning, and to step into a life shaped by your own conscious choices. It is about living fully in the present, embracing your inner voice, and honoring the truth that we are independent, aware beings meant to experience life in our own unique way.
+                <br><br>
+                Unbound believes that true freedom is not loud or forceful, but deeply personal ~ it begins the moment you choose yourself.
+            </div>
+            
+            <div class="box-msg">
+                <span style="font-family: 'Playfair Display', serif; display: block; margin-bottom: 20px; font-size: 1.2rem;">A Message from the Founder</span>
+                <div class="about-text" style="font-style: italic; text-align: center; margin-bottom: 20px;">
+                    “Unbound was created to bring light back into the lives of people ~ in a way that feels honest and real, in a way that feels liberating and not bounding.
+                    <br><br>
+                    It is about returning to what feels authentic ~ living with love, with values that genuinely resonate, with kindness, and with a sense of joy that is not conditioned by approval.
+                    <br><br>
+                    Unbound brings attention to the personal and professional spaces that often limit us ~ the patterns that cage us mentally and emotionally ~ and opens up a path toward living with greater awareness, choice, and truth.”
+                </div>
+                <span style="display: block; text-align: right; color: #888;">~ Himanshi Shrimali</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="inspired-page" class="full-page-overlay">
+        <div class="close-btn" onclick="toggleOverlay('inspired-page', false)">Close</div>
+        <div class="overlay-content" style="max-width: 900px;">
+            <h2>Get Inspired</h2>
+            <div class="pinterest-board" id="pinterest-board"></div>
+        </div>
+    </div>
+
+    <div id="start-page" class="full-page-overlay">
+        <div class="close-btn" onclick="toggleOverlay('start-page', false)">Close</div>
+        <div class="overlay-content">
+            <h2>Ask Yourself</h2>
+            <div class="q-section"><span class="q-title">Who are you?</span><p class="q-ans">You are an independent conscious being with free will.</p></div>
+            <div class="q-section"><span class="q-title">Why are you here?</span><p class="q-ans">To experience life ~ deeply, fully & unapologetically.</p></div>
+            <div class="q-section"><span class="q-title">What are you here to experience?</span><p class="q-ans">Love, joy, peace, and so much more. You choose your experiences, you create them, and you have the capability to change them if they don’t make you feel happy.</p></div>
+            <div class="q-section"><span class="q-title">How can you live a life unbounded?</span><p class="q-ans">Remember this: To live a life unbounded is to choose yourself ~ over pressure, over noise, over expectations. The world has changed for the Good and it must keep changing for the Good. No one holds the right to control your life. Your freedom is your Right and your privilege. 
+            </p></div>
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="https://youtube.com/@unboundbyhimanshi?si=BGa6Jhe4Qfewfh93" target="_blank" style="text-decoration: none; color: var(--accent); border-bottom: 1px solid #ccc; font-size: 0.9rem;">Subscribe Here</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('load', () => {
+            const overlay = document.getElementById('intro-overlay');
+            const ckScreen = document.getElementById('climate-kind-screen');
+            generateQuotes();
+            
+            setTimeout(() => {
+                overlay.style.transform = 'translateY(-100%)';
+                setTimeout(() => { 
+                    ckScreen.style.opacity = '1';
+                    overlay.style.display = 'none';
+                }, 1000);
+            }, 6000); 
+        });
+
+        function revealSite() {
+            const ckScreen = document.getElementById('climate-kind-screen');
+            const main = document.getElementById('main-content');
+            
+            ckScreen.style.transform = 'translateY(-100%)';
+            document.body.style.overflow = 'auto'; 
+            
+            setTimeout(() => { 
+                main.style.opacity = '1'; 
+                ckScreen.style.display = 'none';
+            }, 1000);
+        }
+
+        function exploreMore() {
+            const matterText = document.getElementById('you-matter');
+            matterText.classList.add('type-blink');
+            document.getElementById('front-content').style.opacity = '0';
+            setTimeout(() => {
+                const back = document.getElementById('back-content');
+                back.style.opacity = '1'; back.style.zIndex = '10';
+            }, 1600); 
+        }
+
+        function toggleOverlay(id, show) {
+            const page = document.getElementById(id);
+            page.classList.toggle('open', show);
+            document.body.style.overflow = show ? 'hidden' : 'auto';
+        }
+
+        function generateQuotes() {
+            const board = document.getElementById('pinterest-board');
+            
+            // Custom palette array matching your requirement: light beige, dark beige shades, and warm white shades
+            const beigePalette = [
+                { bg: '#fdfbfa', text: '#5c5247' }, // Warm Pearl White
+                { bg: '#f4ede2', text: '#6b5e50' }, // Light Cream Beige
+                { bg: '#ebdcc1', text: '#4d4235' }, // Soft Medium Beige
+                { bg: '#dfcca9', text: '#42372c' }, // Radiant Pale Gold Beige
+                { bg: '#c9b79c', text: '#ffffff' }, // Matte Dark Beige (White text for contrast)
+                { bg: '#bda68a', text: '#ffffff' }, // Deep Ochre Dark Beige (White text)
+                { bg: '#a38c72', text: '#fbf9f6' }, // Premium Dark Shadow Beige
+                { bg: '#ffffff', text: '#6e6152' }  // Stark Crisp White
+            ];
+
+            // Rich extended list of Pinterest quotes covering Self-Love, Freedom, Friendship, and Kindness
+            const quotes = [
+                "To love oneself is the beginning of a lifelong romance.",
+                "You inherit the freedom to recreate who you are at any moment.",
+                "In a world where you can be anything, be kind.",
+                "A true friend is someone who dances with you in the sunlight and holds the umbrella in the rain.",
+                "You owe yourself the love you so freely give to other people.",
+                "Freedom is not the absence of boundaries, but the courage to draw your own.",
+                "Be gentle with your soul; it is doing the best it can.",
+                "Kindness is the ultimate currency, and it costs nothing to spend.",
+                "Waters roll, winds howl, but true friendship remains unbothered.",
+                "You are allowed to be both a masterpiece and a work in progress.",
+                "The only real cages are the expectations we refuse to untie.",
+                "Unexpected kindness is the most beautiful, elegant gesture in life.",
+                "Choose friends who value your quiet just as much as your noise.",
+                "To choose your own joy is the ultimate declaration of independence.",
+                "You do not have to conquer the world to be worthy of rest.",
+                "Plant your own garden instead of waiting for someone to bring you flowers.",
+                "Freedom feels like a quiet room inside your mind where no external opinion lives.",
+                "A soft heart is a sign of immense strength, not weakness.",
+                "We grow beautiful by the truth we speak and the grace we offer.",
+                "Surround yourself with people who make you feel like a breath of fresh air.",
+                "Your heart is an infinite ocean; make sure you swim in it too.",
+                "Unbound, unbothered, and entirely your own.",
+                "Kindness reflects back like oil on smooth water.",
+                "Friendship is finding the rare souls who speak the exact same silent language.",
+                "Allow yourself the freedom to change your mind and heal your heart.",
+                "You are rare. Act accordingly.",
+                "No one can make you feel small without your own internal vote.",
+                "Be the reason someone believes in the goodness of people today.",
+                "Conscious freedom begins the second you realize you hold the key.",
+                "Keep close to those who feel like soft sunlight on a crisp morning."
+            ];
+
+            // Generating 36 cards to create a beautiful, dense mosaic grid layout
+            for(let i = 0; i < 36; i++) {
+                const card = document.createElement('div');
+                card.className = 'quote-card';
+                card.innerText = quotes[i % quotes.length];
+                card.style.height = (140 + Math.random() * 90) + "px";
+                
+                // Fetch random color schema from the customized beige profile array
+                const schema = beigePalette[Math.floor(Math.random() * beigePalette.length)];
+                card.style.backgroundColor = schema.bg;
+                card.style.color = schema.text;
+                
+                board.appendChild(card);
+            }
+        }
+    </script>
+</body>
+</html>
